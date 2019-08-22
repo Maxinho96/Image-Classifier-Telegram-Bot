@@ -11,7 +11,7 @@ def classify_image(bot, update):
     output = ""
     for label, prob in preds:
         output += "- {} ({:.2}%)%0A".format(label, prob * 100)
-    message.reply_text(output)
+    update.message.reply_text(output)
 
 def main():
     TOKEN = os.getenv("TOKEN")
