@@ -1,7 +1,10 @@
 # Imports
 import tensorflow as tf
+tf.enable_eager_execution()
 import tensorflow.keras as keras
 from tensorflow.keras.applications import nasnet # Pretrained models
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import numpy as np
 from nltk.corpus import wordnet as wn # WordNet database to translate English labels to Italian
@@ -30,6 +33,7 @@ class NeuralNetwork:
         image_resized = tf.image.resize_image_with_pad(image, target_height=331, target_width=331)
         image_preprocessed = nasnet.preprocess_input(image_resized)
         image_with_batch = tf.expand_dims(image_preprocessed, axis=0)
+        return image_with_batch
 
     def get_model(self):
         return nasnet.NASNetLarge()
@@ -40,4 +44,7 @@ class NeuralNetwork:
         probs = self.model.predict(image_preprocessed)
         pred = nasnet.decode_predictions(probs)
         ita_labels = [(self.translate(id), prob) for id, _, prob in pred[0]]
-        return ita_labels
+        output = ""
+        for label, prob in ita_labels:
+            output += "- {} ({:.2f}%)\n".format(label, prob * 100)
+        return output

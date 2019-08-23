@@ -6,3 +6,4 @@ tensorflow==1.14.0
 matplotlib==3.0.3
 numpy==1.16.4
 nltk==3.2.5
+pillow==5.2.0

@@ -8,10 +8,7 @@ def classify_image(bot, update):
     image_file = bot.getFile(update.message.photo[-1].file_id)
     image_file.download("image.jpg")
     preds = net.get_predictions("image.jpg")
-    output = ""
-    for label, prob in preds:
-        output += "- {} ({:.2}%)%0A".format(label, prob * 100)
-    update.message.reply_text(output)
+    update.message.reply_text(preds)
 
 def main():
     TOKEN = os.getenv("TOKEN")
