@@ -25,7 +25,7 @@ class NeuralNetwork:
         offset = int(id[1:])
         synset = wn.synset_from_pos_and_offset(pos, offset)
         words = synset.lemma_names("ita")
-        ita_label = words[0] if len(words) > 0 else synset.lemma_names()[0]
+        ita_label = words[0] if len(words) > 0 else "[Non disponibile]"
         return ita_label
 
     # To preprocess an image to transform it to what is required by the Neural Network
@@ -43,8 +43,8 @@ class NeuralNetwork:
         image_preprocessed = self.preprocess(image)
         probs = self.model.predict(image_preprocessed)
         pred = nasnet.decode_predictions(probs)
-        ita_labels = [(self.translate(id), prob) for id, _, prob in pred[0]]
+        ita_labels = [(self.translate(id), label, prob) for id, label, prob in pred[0]]
         output = ""
-        for label, prob in ita_labels:
-            output += "- {} ({:.2f}%)\n".format(label, prob * 100)
+        for ita_label, label, prob in ita_labels:
+            output += "*-* _Eng:_*{}*, _Ita:_*{}* ({:.2f}%)\n".format(label, ita_label, prob * 100)
         return output
