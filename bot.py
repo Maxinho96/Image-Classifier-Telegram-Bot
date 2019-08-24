@@ -1,14 +1,17 @@
 from telegram.ext import Updater, MessageHandler, Filters
 import os
 import neural_network as nn
+import utils
 
 net = nn.NeuralNetwork()
+util = Utils()
 
 def classify_image(bot, update):
     image_file = bot.getFile(update.message.photo[-1].file_id)
     image_file.download("image.jpg")
     preds = net.get_predictions("image.jpg")
-    update.message.reply_text(preds)
+    text = util.preds_to_string(preds)
+    update.message.reply_markdown(text)
 
 def main():
     TOKEN = os.getenv("TOKEN")
