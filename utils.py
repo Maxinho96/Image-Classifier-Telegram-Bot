@@ -1,7 +1,7 @@
 from nltk.corpus import wordnet as wn # WordNet database to translate English labels to Italian
 import nltk
 
-class Utils():
+class Utils:
     def __init__(self):
         self.download_database()
 
