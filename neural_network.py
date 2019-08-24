@@ -1,21 +1,24 @@
 # Imports
 import tensorflow as tf
-tf.enable_eager_execution()
+tf.compat.v1.enable_eager_execution()
 from tensorflow.keras.applications import nasnet # Pretrained models
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 class NeuralNetwork:
-    def __init__(self):
-        self.model = self.get_model()
+    def __init__(self, model_size="large"):
+        self.model = self.get_model(model_size)
 
-    def get_model(self):
-        return nasnet.NASNetLarge()
+    def get_model(self, model_size="large"):
+        if model_size == "large":
+            return nasnet.NASNetLarge()
+        elif model_size == "small":
+            return nasnet.NASNetMobile()
 
     # To preprocess an image to transform it to what is required by the Neural Network
     def preprocess(self, image):
-        image_resized = tf.image.resize_image_with_pad(image, target_height=331, target_width=331)
+        image_resized = tf.compat.v1.image.resize_image_with_pad(image, target_height=331, target_width=331)
         image_preprocessed = nasnet.preprocess_input(image_resized)
         image_with_batch = tf.expand_dims(image_preprocessed, axis=0)
         return image_with_batch
@@ -26,4 +29,4 @@ class NeuralNetwork:
         image_preprocessed = self.preprocess(image)
         probs = self.model.predict(image_preprocessed)
         preds = nasnet.decode_predictions(probs)
-        return preds
+        return preds[0]
