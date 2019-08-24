@@ -2,11 +2,9 @@ from telegram.ext import Updater, MessageHandler, Filters
 import os
 import neural_network as nn
 import utils
+from functools import partial
 
-net = nn.NeuralNetwork()
-util = Utils()
-
-def classify_image(bot, update):
+def classify_image(bot, update, net, util):
     image_file = bot.getFile(update.message.photo[-1].file_id)
     image_file.download("image.jpg")
     preds = net.get_predictions("image.jpg")
@@ -19,7 +17,11 @@ def main():
     updater = Updater(TOKEN)
     dp = updater.dispatcher
 
-    dp.add_handler(MessageHandler(Filters.photo, classify_image))
+    net = nn.NeuralNetwork()
+    util = utils.Utils()
+    classify_image_callback = partial(classify_image, net=net, util=util)
+
+    dp.add_handler(MessageHandler(Filters.photo, classify_image_callback))
 
     PORT = int(os.environ.get("PORT", "8443"))
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME")
