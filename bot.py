@@ -17,7 +17,7 @@ def main():
     updater = Updater(TOKEN)
     dp = updater.dispatcher
 
-    net = nn.NeuralNetwork(model_size="large")
+    net = nn.NeuralNetwork(model_size="small")
     util = utils.Utils()
     classify_image_callback = partial(classify_image, net=net, util=util)
 
