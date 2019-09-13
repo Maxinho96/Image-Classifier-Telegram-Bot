@@ -24,7 +24,7 @@ class NeuralNetwork:
         elif self.model_size == "small":
             height = 224
             width = 224
-        image_resized = tf.image.resize_image_with_pad(image, target_height=height, target_width=width)
+        image_resized = tf.image.resize_with_pad(image, target_height=height, target_width=width)
         image_preprocessed = nasnet.preprocess_input(image_resized)
         image_with_batch = tf.expand_dims(image_preprocessed, axis=0)
         return image_with_batch
