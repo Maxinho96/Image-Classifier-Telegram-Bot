@@ -1,6 +1,5 @@
 # Imports
 import tensorflow as tf
-tf.compat.v1.enable_eager_execution()
 from tensorflow.keras.applications import nasnet # Pretrained models
 import matplotlib
 matplotlib.use('TkAgg')
@@ -25,7 +24,7 @@ class NeuralNetwork:
         elif self.model_size == "small":
             height = 224
             width = 224
-        image_resized = tf.compat.v1.image.resize_image_with_pad(image, target_height=height, target_width=width)
+        image_resized = tf.resize_image_with_pad(image, target_height=height, target_width=width)
         image_preprocessed = nasnet.preprocess_input(image_resized)
         image_with_batch = tf.expand_dims(image_preprocessed, axis=0)
         return image_with_batch
