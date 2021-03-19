@@ -5,4 +5,4 @@ python-telegram-bot==11.1.0
 tensorflow==2.0.0b1
 matplotlib==3.0.3
 nltk==3.4.5
-pillow==6.2.0
+pillow==8.1.1
