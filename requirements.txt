@@ -2,7 +2,7 @@
 # $ conda create --name <env> --file <this file>
 
 python-telegram-bot==11.1.0
-tensorflow==2.5.3
+tensorflow==2.9.3
 matplotlib==3.0.3
 nltk==3.6.6
 pillow==9.0.0
